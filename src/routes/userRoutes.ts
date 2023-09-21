@@ -36,11 +36,36 @@ router.get('/:id',async ( req, res ) => {
         where: {
             id: Number(id),
         }
-    })
+    });
+
+    return res.json(user);
 });
  
-router.put('/:id')
+router.put('/:id', async( req, res) => {
+    const {id} = req.params;
+    const data = req.body;
 
-router.delete('/:id');
+    try {
+        const result = await prisma.user.update({
+            where: {id: Number(id)},
+            data: data,
+        });
 
-export default router;
+        return res.json(result);
+    } catch (error) {
+        return res.status(400).json({
+            err: error
+        })
+    }
+})
+
+router.delete('/:id', async( req, res)=>{
+    const {id} = req.params
+    const result = await prisma.user.delete({
+        where: { id: Number(id) }
+    });
+
+    return res.json(result);
+});
+
+export default router; 
