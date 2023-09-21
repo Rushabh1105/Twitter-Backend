@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}))
 app.use( '/user', userRoutes );
-app.use( '/tweets', tweetRoutes );
+app.use( '/tweet', tweetRoutes );
 
 app.get('/', (req, res) => {
     res.send("Hello World...");

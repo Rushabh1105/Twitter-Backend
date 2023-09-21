@@ -25,7 +25,7 @@ model User {
 model Tweet {
   id Int @id @default(autoincrement())
   content String
-  image String
+  image String?
   impressions Int @default(0)
   userId Int 
   user User @relation(fields: [userId], references: [id])

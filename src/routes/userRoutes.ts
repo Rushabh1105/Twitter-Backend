@@ -38,6 +38,12 @@ router.get('/:id',async ( req, res ) => {
         }
     });
 
+    if( !user ){
+        return res.json({
+            message: "user not found"
+        })
+    }
+
     return res.json(user);
 });
  
