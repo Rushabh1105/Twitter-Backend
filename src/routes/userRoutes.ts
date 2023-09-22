@@ -23,7 +23,12 @@ router.post('/',async ( req, res ) => {
 });
 
 router.get('/', async ( req, res) => {
-    const allUser = await prisma.user.findMany();
+    const allUser = await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+        }
+    });
 
     res.json({
         users: allUser,
@@ -35,7 +40,8 @@ router.get('/:id',async ( req, res ) => {
     const user = await prisma.user.findUnique({
         where: {
             id: Number(id),
-        }
+        },
+        include: {tweet : true},
     });
 
     if( !user ){

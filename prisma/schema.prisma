@@ -13,13 +13,33 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   email String @unique
-  name String
-  userName String @unique
+
+  name String?
+  userName String? @unique
   image String?  //Optional
   bio String? //Optional
   isVerified Boolean @default(false)
   tweet Tweet[]
+  tokens Token []
+}
+
+model Token{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type String
+  emailToken String? @unique
+
+  valid Boolean @default(true)
+  expiration DateTime
+
+  userId Int
+  user User @relation( fields: [userId], references: [id])
 }
 
 model Tweet {

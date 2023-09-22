@@ -7,7 +7,7 @@ const prisma = new PrismaClient;
 router.post( '/',async ( req, res ) => {
     const { content, userId, image } = req.body;
     const id = Number(userId);
-
+ 
     try {
         const result = await prisma.tweet.create({
             data: {
@@ -26,7 +26,18 @@ router.post( '/',async ( req, res ) => {
 });
 
 router.get('/',async ( req, res ) => {
-    const allTweets = await prisma.tweet.findMany();
+    const allTweets = await prisma.tweet.findMany({ 
+        // include: {user: true },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    userName: true,
+                }
+            }
+        }
+    });
     return res.json(allTweets);
 });
 
@@ -55,6 +66,8 @@ router.delete('/:id',async (req, res ) => {
             id: Number(id),
         }
     });
+
+    return res.json(result)
 });
 
 export default router;
