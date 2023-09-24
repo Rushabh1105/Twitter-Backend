@@ -3,11 +3,10 @@ import bodyParser from 'body-parser';
 
 import userRoutes from './src/routes/userRoutes';
 import tweetRoutes from './src/routes/tweetsRoutes';
-import PORT from './src/serverConfig/serverConfig';
 import authRoutes from './src/routes/authRoutes';
 import {authToken} from './src/middlewares/authMiddleware'
 
-
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.json());
