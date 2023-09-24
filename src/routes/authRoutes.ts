@@ -65,20 +65,22 @@ router.post('/authenticate', async( req, res ) => {
     });
         
     if( !dbEmailToken || !dbEmailToken.valid ){
-        return res.sendStatus(401).json({
+        return res.json({
             message: "unauthenticate",
         });
     }
-    
+
     if( dbEmailToken.expiration < new Date() ){
     
-        return res.sendStatus(401).json({
+        return res.json({
             message: "Token Expired"
         })
     }
     
     if( dbEmailToken?.user?.email != email ){
-        return res.sendStatus(401);
+        return res.json({
+            message: "something went wrong"
+        });
     }
     
     const expiration = new Date(new Date().getTime() + 72*60*60*1000 );
@@ -100,7 +102,7 @@ router.post('/authenticate', async( req, res ) => {
     const authToken = generateAuthToken(apiToken.id);
     
     res.json({
-        authToken,
+        token: authToken,
     });
 });
 
